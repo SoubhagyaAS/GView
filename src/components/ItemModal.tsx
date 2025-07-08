@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, User, Flag, AlertTriangle, CheckCircle, Link } from 'lucide-react';
+import { X, Calendar, User, Flag, AlertTriangle, CheckCircle, Link, GitBranch } from 'lucide-react';
 import { ProjectItem } from '../types';
 import { generateItemColor } from '../utils/colors';
 
@@ -40,10 +40,12 @@ export const ItemModal: React.FC<ItemModalProps> = ({
   });
 
   const [newBlocker, setNewBlocker] = useState('');
+  const [selectedDependencies, setSelectedDependencies] = useState<string[]>([]);
 
   useEffect(() => {
     if (item) {
       setFormData(item);
+      setSelectedDependencies(item.dependencies || []);
     } else {
       setFormData({
         name: '',
@@ -61,12 +63,16 @@ export const ItemModal: React.FC<ItemModalProps> = ({
         parentId: parentId,
         color: generateItemColor('task')
       });
+      setSelectedDependencies([]);
     }
   }, [item, parentId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    onSave({
+      ...formData,
+      dependencies: selectedDependencies
+    });
     onClose();
   };
 
@@ -94,18 +100,43 @@ export const ItemModal: React.FC<ItemModalProps> = ({
     }));
   };
 
+  const handleDependencyChange = (dependencyId: string) => {
+    setSelectedDependencies(prev => 
+      prev.includes(dependencyId)
+        ? prev.filter(id => id !== dependencyId)
+        : [...prev, dependencyId]
+    );
+  };
+
+  // Filter available items for parent selection (only open phases and milestones)
+  const availableParents = availableItems.filter(availableItem => 
+    availableItem.id !== item?.id && 
+    !availableItem.parentId &&
+    (availableItem.type === 'phase' || availableItem.type === 'milestone') &&
+    availableItem.status !== 'completed' &&
+    availableItem.status !== 'cancelled'
+  );
+
+  // Filter available items for dependencies (only open phases and milestones)
+  const availableDependencies = availableItems.filter(availableItem => 
+    availableItem.id !== item?.id &&
+    (availableItem.type === 'phase' || availableItem.type === 'milestone') &&
+    availableItem.status !== 'completed' &&
+    availableItem.status !== 'cancelled'
+  );
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200/50">
+        <div className="flex items-center justify-between p-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-100 to-slate-50">
           <h2 className="text-xl font-semibold text-gray-900">
             {item ? 'Edit Item' : 'Add New Item'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600"
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-slate-200/50 rounded-lg transition-all duration-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -123,7 +154,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 required
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
                 placeholder="Enter item name"
               />
             </div>
@@ -135,7 +166,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.type}
                 onChange={(e) => handleInputChange('type', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="task">Task</option>
                 <option value="milestone">Milestone</option>
@@ -153,7 +184,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.status}
                 onChange={(e) => handleInputChange('status', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="not-started">Not Started</option>
                 <option value="in-progress">In Progress</option>
@@ -173,7 +204,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 max="100"
                 value={formData.progress}
                 onChange={(e) => handleInputChange('progress', Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               />
             </div>
 
@@ -184,7 +215,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.priority}
                 onChange={(e) => handleInputChange('priority', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -206,7 +237,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 required
                 value={formData.startDate?.toISOString().split('T')[0]}
                 onChange={(e) => handleInputChange('startDate', new Date(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               />
             </div>
 
@@ -220,7 +251,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 required
                 value={formData.endDate?.toISOString().split('T')[0]}
                 onChange={(e) => handleInputChange('endDate', new Date(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               />
             </div>
           </div>
@@ -235,7 +266,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.assignee}
                 onChange={(e) => handleInputChange('assignee', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="">Select assignee</option>
                 {assignees.map(assignee => (
@@ -252,7 +283,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.approval}
                 onChange={(e) => handleInputChange('approval', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="not-required">Not Required</option>
                 <option value="pending">Pending</option>
@@ -272,20 +303,50 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               <select
                 value={formData.parentId || ''}
                 onChange={(e) => handleInputChange('parentId', e.target.value || undefined)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="">No parent (top-level item)</option>
-                {availableItems
-                  .filter(availableItem => availableItem.id !== item?.id && !availableItem.parentId)
-                  .map(availableItem => (
-                    <option key={availableItem.id} value={availableItem.id}>
-                      {availableItem.name} ({availableItem.type})
-                    </option>
-                  ))}
+                {availableParents.map(availableItem => (
+                  <option key={availableItem.id} value={availableItem.id}>
+                    {availableItem.name} ({availableItem.type}) - {availableItem.status}
+                  </option>
+                ))}
               </select>
               <p className="text-xs text-gray-500 mt-1">
-                Select a parent item to create a hierarchy. Leave empty to create a top-level item.
+                Link to open phases or milestones only. Completed and cancelled items are not shown.
               </p>
+            </div>
+          )}
+
+          {/* Dependencies */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              <GitBranch className="inline w-4 h-4 mr-1" />
+              Dependencies
+            </label>
+            <div className="space-y-2">
+              <p className="text-xs text-gray-500">
+                Select phases or milestones that must be completed before this item can start:
+              </p>
+              <div className="max-h-32 overflow-y-auto border border-slate-300 rounded-lg bg-white/70 backdrop-blur-sm">
+                {availableDependencies.length > 0 ? (
+                  availableDependencies.map(availableItem => (
+                    <label key={availableItem.id} className="flex items-center p-2 hover:bg-slate-50 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedDependencies.includes(availableItem.id)}
+                        onChange={() => handleDependencyChange(availableItem.id)}
+                        className="mr-2 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-sm">
+                        {availableItem.name} ({availableItem.type}) - {availableItem.status}
+                      </span>
+                    </label>
+                  ))
+                ) : (
+                  <p className="p-2 text-sm text-gray-500">No open phases or milestones available</p>
+                )}
+              </div>
             </div>
           )}
 
@@ -298,7 +359,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               value={formData.description}
               onChange={(e) => handleInputChange('description', e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               placeholder="Enter item description"
             />
           </div>
@@ -315,13 +376,13 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 value={newBlocker}
                 onChange={(e) => setNewBlocker(e.target.value)}
                 placeholder="Add a blocker"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addBlocker())}
               />
               <button
                 type="button"
                 onClick={addBlocker}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-200 shadow-lg"
               >
                 Add
               </button>
@@ -329,12 +390,12 @@ export const ItemModal: React.FC<ItemModalProps> = ({
             {formData.blockers && formData.blockers.length > 0 && (
               <div className="space-y-2">
                 {formData.blockers.map((blocker, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-red-50 rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-2 bg-gradient-to-r from-red-50 to-red-100 rounded-lg border border-red-200">
                     <span className="text-sm text-red-800">{blocker}</span>
                     <button
                       type="button"
                       onClick={() => removeBlocker(index)}
-                      className="text-red-600 hover:text-red-800"
+                      className="text-red-600 hover:text-red-800 hover:bg-red-200 rounded p-1 transition-all duration-200"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -353,22 +414,22 @@ export const ItemModal: React.FC<ItemModalProps> = ({
               type="color"
               value={formData.color}
               onChange={(e) => handleInputChange('color', e.target.value)}
-              className="w-16 h-10 border border-gray-300 rounded-lg"
+              className="w-16 h-10 border border-slate-300 rounded-lg bg-white/70 backdrop-blur-sm transition-all duration-200"
             />
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end space-x-4 pt-4 border-t border-gray-200">
+          <div className="flex justify-end space-x-4 pt-4 border-t border-slate-200/50">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-slate-100 rounded-lg transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg"
             >
               {item ? 'Update' : 'Create'}
             </button>

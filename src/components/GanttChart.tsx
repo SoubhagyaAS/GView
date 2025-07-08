@@ -61,7 +61,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   }, {} as Record<string, { parent: ProjectItem; children: ProjectItem[] }>);
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Filter Panel */}
       <FilterPanel
         filters={filters}
@@ -76,18 +76,18 @@ export const GanttChart: React.FC<GanttChartProps> = ({
       />
 
       {/* Chart Container */}
-      <div className="flex-1 overflow-auto" ref={scrollRef}>
+      <div className="flex-1 overflow-auto bg-white/50 backdrop-blur-sm" ref={scrollRef}>
         <div className="min-w-full">
           {/* Timeline Header */}
-          <div className="sticky top-0 z-20 bg-white border-b border-gray-200">
+          <div className="sticky top-0 z-20 bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200/50 shadow-sm">
             <div className="flex">
-              <div className="w-32 flex-shrink-0 border-r border-gray-200 bg-gray-50">
+              <div className="w-32 flex-shrink-0 border-r border-slate-200/50 bg-gradient-to-r from-slate-100 to-slate-50">
                 <div className="p-2 font-medium text-gray-900 text-xs">
                   Item Name
                 </div>
               </div>
-              <div className="flex-1 min-w-0 border-r border-gray-200">
-                <div className="p-2 bg-gray-50 font-medium text-gray-900 text-xs">
+              <div className="flex-1 min-w-0 border-r border-slate-200/50">
+                <div className="p-2 bg-gradient-to-r from-slate-100 to-slate-50 font-medium text-gray-900 text-xs">
                   Details
                 </div>
               </div>
@@ -98,7 +98,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
           </div>
 
           {/* Chart Content */}
-          <div className="relative">
+          <div className="relative bg-white/30 backdrop-blur-sm">
             {Object.values(groupedItems).map(({ parent, children }) => (
               <ProjectItemRow
                 key={parent.id}

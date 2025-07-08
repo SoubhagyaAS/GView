@@ -19,7 +19,7 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({ config, width })
       days.push(
         <div
           key={currentDate.toISOString()}
-          className="flex-shrink-0 border-r border-gray-200 px-2 py-1 text-xs text-gray-600"
+          className="flex-shrink-0 border-r border-slate-200/50 px-2 py-1 text-xs text-gray-600 hover:bg-slate-100 transition-all duration-200"
           style={{ width: `${dayWidth}px` }}
         >
           {formatDateShort(currentDate)}
@@ -37,7 +37,7 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({ config, width })
     return weeks.map((week, index) => (
       <div
         key={week.toISOString()}
-        className="flex-shrink-0 border-r border-gray-200 px-2 py-1 text-xs text-gray-600"
+        className="flex-shrink-0 border-r border-slate-200/50 px-2 py-1 text-xs text-gray-600 hover:bg-slate-100 transition-all duration-200"
         style={{ width: `${weekWidth}px` }}
       >
         Week {index + 1}
@@ -52,7 +52,7 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({ config, width })
     return months.map(month => (
       <div
         key={month.toISOString()}
-        className="flex-shrink-0 border-r border-gray-200 px-2 py-1 text-xs text-gray-600"
+        className="flex-shrink-0 border-r border-slate-200/50 px-2 py-1 text-xs text-gray-600 hover:bg-slate-100 transition-all duration-200"
         style={{ width: `${monthWidth}px` }}
       >
         {month.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
@@ -61,7 +61,7 @@ export const TimelineHeader: React.FC<TimelineHeaderProps> = ({ config, width })
   };
 
   return (
-    <div className="bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+    <div className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200/50 sticky top-0 z-10 shadow-sm">
       <div className="flex" style={{ width: `${width}px` }}>
         {scale === 'days' && renderDayHeaders()}
         {scale === 'weeks' && renderWeekHeaders()}

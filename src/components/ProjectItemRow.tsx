@@ -99,15 +99,15 @@ export const ProjectItemRow: React.FC<ProjectItemRowProps> = ({
 
   return (
     <>
-      <div className="flex border-b border-gray-100 hover:bg-gray-50 group">
+      <div className="flex border-b border-slate-100 hover:bg-gradient-to-r hover:from-slate-50 hover:to-slate-100 group transition-all duration-200">
         {/* Item Name Column */}
-        <div className="w-32 flex-shrink-0 p-2 border-r border-gray-200 bg-gray-50 flex items-center" style={{ paddingLeft: `${level * 12 + 8}px` }}>
+        <div className="w-32 flex-shrink-0 p-2 border-r border-slate-200/50 bg-gradient-to-r from-slate-50 to-slate-100 flex items-center" style={{ paddingLeft: `${level * 12 + 8}px` }}>
           <div className="flex items-center space-x-1 w-full">
             {/* Expand/Collapse */}
             {children.length > 0 && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="p-0.5 hover:bg-gray-200 rounded flex-shrink-0"
+                className="p-0.5 hover:bg-slate-200 rounded flex-shrink-0 transition-all duration-200"
               >
                 {isExpanded ? 
                   <ChevronDown className="w-3 h-3" /> : 
@@ -234,23 +234,23 @@ export const ProjectItemRow: React.FC<ProjectItemRowProps> = ({
         </div>
 
         {/* Timeline Bar Column */}
-        <div className="relative flex-shrink-0 border-l border-gray-200" style={{ width: `${timelineWidth}px` }}>
+        <div className="relative flex-shrink-0 border-l border-slate-200/50 bg-gradient-to-r from-white/30 to-slate-50/30" style={{ width: `${timelineWidth}px` }}>
           {/* Timeline Bar */}
           <div
-            className="absolute top-1/2 transform -translate-y-1/2 rounded-lg shadow-sm cursor-pointer group/bar transition-all duration-200 hover:shadow-md"
+            className="absolute top-1/2 transform -translate-y-1/2 rounded-lg shadow-lg cursor-pointer group/bar transition-all duration-200 hover:shadow-xl hover:scale-105"
             style={{
               left: `${left}px`,
               width: `${width}px`,
               height: item.type === 'milestone' ? '12px' : '18px',
-              backgroundColor: item.color,
-              opacity: 0.9
+              background: `linear-gradient(135deg, ${item.color}, ${item.color}dd)`,
+              opacity: 0.95
             }}
             onClick={() => onEdit(item)}
           >
             {/* Progress overlay */}
             {item.type !== 'milestone' && (
               <div
-                className="absolute top-0 left-0 h-full bg-white bg-opacity-40 rounded-lg transition-all duration-300"
+                className="absolute top-0 left-0 h-full bg-white bg-opacity-50 rounded-lg transition-all duration-300 backdrop-blur-sm"
                 style={{ width: `${item.progress}%` }}
               />
             )}
@@ -261,14 +261,14 @@ export const ProjectItemRow: React.FC<ProjectItemRowProps> = ({
             )}
 
             {/* Hover tooltip */}
-            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover/bar:opacity-100 whitespace-nowrap z-30 pointer-events-none">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover/bar:opacity-100 whitespace-nowrap z-30 pointer-events-none shadow-xl backdrop-blur-sm">
               <div className="font-medium">{item.name}</div>
               <div className="text-gray-300 text-xs">
                 {formatDate(item.startDate)} - {formatDate(item.endDate)}
               </div>
               <div className="text-gray-300 text-xs">Progress: {item.progress}%</div>
               {/* Tooltip arrow */}
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-2 border-transparent border-t-gray-900" />
+              <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-2 border-transparent border-t-gray-800" />
             </div>
           </div>
 
@@ -278,11 +278,11 @@ export const ProjectItemRow: React.FC<ProjectItemRowProps> = ({
           )}
 
           {/* Grid lines */}
-          <div className="absolute inset-0 pointer-events-none opacity-30">
+          <div className="absolute inset-0 pointer-events-none opacity-20">
             {Array.from({ length: Math.ceil(timelineWidth / 50) }).map((_, i) => (
               <div
                 key={i}
-                className="absolute top-0 bottom-0 w-px bg-gray-200"
+                className="absolute top-0 bottom-0 w-px bg-slate-300"
                 style={{ left: `${i * 50}px` }}
               />
             ))}

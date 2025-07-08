@@ -109,7 +109,7 @@ function App() {
 
   // Filter items based on current filters
   const filteredItems = useMemo(() => {
-    return items.filter(item => {
+    const filtered = items.filter(item => {
       // Search filter
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
@@ -154,6 +154,28 @@ function App() {
       }
 
       return true;
+    });
+
+    // Sort items by type (phase, milestone, task), then by start date, then by name
+    return filtered.sort((a, b) => {
+      // Define type priority
+      const typeOrder = { 'phase': 1, 'milestone': 2, 'task': 3 };
+      const aTypePriority = typeOrder[a.type] || 4;
+      const bTypePriority = typeOrder[b.type] || 4;
+      
+      // First sort by type
+      if (aTypePriority !== bTypePriority) {
+        return aTypePriority - bTypePriority;
+      }
+      
+      // Then sort by start date
+      const dateComparison = a.startDate.getTime() - b.startDate.getTime();
+      if (dateComparison !== 0) {
+        return dateComparison;
+      }
+      
+      // Finally sort by name alphabetically
+      return a.name.localeCompare(b.name);
     });
   }, [items, filters]);
 

@@ -66,7 +66,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
     filters.dateRange.end;
 
   return (
-    <div className="bg-white border-b border-gray-200 p-3">
+    <div className="bg-gradient-to-r from-slate-100 to-slate-50 border-b border-slate-200/50 p-3 shadow-sm">
       <div className="flex flex-wrap gap-3 items-center">
         {/* Search */}
         <div className="relative flex-1 min-w-48">
@@ -74,7 +74,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           <input
             type="text"
             placeholder="Search items by name, description, or assignee..."
-            className="w-full pl-10 pr-4 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full pl-10 pr-4 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
             value={filters.search}
             onChange={(e) => handleFilterChange('search', e.target.value)}
           />
@@ -84,7 +84,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         <div className="flex items-center gap-1">
           <Filter className="w-3.5 h-3.5 text-gray-500" />
           <select
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
             value=""
             onChange={(e) => e.target.value && handleArrayFilterChange('type', e.target.value)}
           >
@@ -97,7 +97,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
         {/* Status Filter */}
         <select
-          className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
           value=""
           onChange={(e) => e.target.value && handleArrayFilterChange('status', e.target.value)}
         >
@@ -111,7 +111,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
         {/* Priority Filter */}
         <select
-          className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
           value=""
           onChange={(e) => e.target.value && handleArrayFilterChange('priority', e.target.value)}
         >
@@ -126,7 +126,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         <div className="flex items-center gap-1">
           <User className="w-3.5 h-3.5 text-gray-500" />
           <select
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
             value=""
             onChange={(e) => e.target.value && handleArrayFilterChange('assignee', e.target.value)}
           >
@@ -142,7 +142,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           <Calendar className="w-3.5 h-3.5 text-gray-500" />
           <input
             type="date"
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
             value={filters.dateRange.start ? filters.dateRange.start.toISOString().split('T')[0] : ''}
             onChange={(e) => handleFilterChange('dateRange', {
               ...filters.dateRange,
@@ -152,7 +152,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           <span className="text-gray-500 text-sm">to</span>
           <input
             type="date"
-            className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
             value={filters.dateRange.end ? filters.dateRange.end.toISOString().split('T')[0] : ''}
             onChange={(e) => handleFilterChange('dateRange', {
               ...filters.dateRange,
@@ -162,23 +162,23 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         </div>
 
         {/* Divider */}
-        <div className="h-6 w-px bg-gray-300"></div>
+        <div className="h-6 w-px bg-slate-300"></div>
 
         {/* Zoom Controls */}
-        <div className="flex items-center space-x-1 border border-gray-300 rounded-md bg-white">
+        <div className="flex items-center space-x-1 border border-slate-300 rounded-md bg-white/70 backdrop-blur-sm shadow-sm">
           <button
             onClick={onZoomOut}
-            className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-l-md"
+            className="p-1 text-gray-500 hover:text-gray-700 hover:bg-slate-100 rounded-l-md transition-all duration-200"
             title="Zoom Out"
           >
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
-          <span className="px-2 text-xs text-gray-500 border-x border-gray-300 min-w-[40px] text-center">
+          <span className="px-2 text-xs text-gray-500 border-x border-slate-300 min-w-[40px] text-center">
             {Math.round(zoomLevel * 100)}%
           </span>
           <button
             onClick={onZoomIn}
-            className="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-r-md"
+            className="p-1 text-gray-500 hover:text-gray-700 hover:bg-slate-100 rounded-r-md transition-all duration-200"
             title="Zoom In"
           >
             <ZoomIn className="w-3.5 h-3.5" />
@@ -189,7 +189,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         <select
           value={timelineScale}
           onChange={(e) => onScaleChange(e.target.value as 'days' | 'weeks' | 'months')}
-          className="px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+          className="px-2 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
         >
           <option value="days">Days</option>
           <option value="weeks">Weeks</option>
@@ -199,7 +199,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Add Item Button */}
         <button
           onClick={onAddItem}
-          className="flex items-center space-x-1 px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+          className="flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md hover:from-blue-700 hover:to-blue-800 transition-all duration-200 text-sm shadow-lg"
         >
           <Plus className="w-3.5 h-3.5" />
           <span>New</span>
@@ -209,7 +209,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 font-medium"
+            className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md font-medium transition-all duration-200"
           >
             Clear All
           </button>
@@ -222,12 +222,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           {filters.type.map(type => (
             <span
               key={type}
-              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 shadow-sm"
             >
               {type}
               <button
                 onClick={() => handleArrayFilterChange('type', type)}
-                className="ml-1 text-blue-600 hover:text-blue-700"
+                className="ml-1 text-blue-600 hover:text-blue-700 hover:bg-blue-300 rounded-full p-0.5 transition-all duration-200"
               >
                 ×
               </button>
@@ -236,12 +236,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           {filters.status.map(status => (
             <span
               key={status}
-              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"
+              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-100 to-green-200 text-green-800 shadow-sm"
             >
               {status.replace('-', ' ')}
               <button
                 onClick={() => handleArrayFilterChange('status', status)}
-                className="ml-1 text-green-600 hover:text-green-700"
+                className="ml-1 text-green-600 hover:text-green-700 hover:bg-green-300 rounded-full p-0.5 transition-all duration-200"
               >
                 ×
               </button>
@@ -250,12 +250,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           {filters.priority.map(priority => (
             <span
               key={priority}
-              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"
+             className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 shadow-sm"
             >
               {priority}
               <button
                 onClick={() => handleArrayFilterChange('priority', priority)}
-                className="ml-1 text-yellow-600 hover:text-yellow-700"
+               className="ml-1 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-300 rounded-full p-0.5 transition-all duration-200"
               >
                 ×
               </button>
@@ -264,12 +264,12 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
           {filters.assignee.map(assignee => (
             <span
               key={assignee}
-              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+              className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 shadow-sm"
             >
               {assignee}
               <button
                 onClick={() => handleArrayFilterChange('assignee', assignee)}
-                className="ml-1 text-purple-600 hover:text-purple-700"
+                className="ml-1 text-purple-600 hover:text-purple-700 hover:bg-purple-300 rounded-full p-0.5 transition-all duration-200"
               >
                 ×
               </button>

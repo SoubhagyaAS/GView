@@ -63,18 +63,18 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200/50">
+        <div className="flex items-center justify-between p-6 border-b border-slate-200/50 bg-gradient-to-r from-slate-100 to-slate-50">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-blue-600 rounded-lg">
+            <div className="p-2 bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg">
               <Building className="w-5 h-5 text-white" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900">Project Settings</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-slate-200/50 rounded-lg transition-all duration-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -97,7 +97,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 required
                 value={formData.projectName}
                 onChange={(e) => handleInputChange('projectName', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
                 placeholder="Enter project name"
               />
             </div>
@@ -110,7 +110,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
                 placeholder="Enter project description"
               />
             </div>
@@ -186,13 +186,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <p className="text-sm text-gray-600">Current team members:</p>
                   <div className="flex flex-wrap gap-2">
                     {formData.defaultAssignees.map((assignee, index) => (
-                      <div key={index} className="flex items-center space-x-2 bg-blue-50 text-blue-800 px-3 py-1 rounded-full text-sm">
+                      <div key={index} className="flex items-center space-x-2 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm shadow-sm">
                         <Users className="w-3 h-3" />
                         <span>{assignee}</span>
                         <button
                           type="button"
                           onClick={() => removeAssignee(assignee)}
-                          className="text-blue-600 hover:text-blue-800 ml-1"
+                          className="text-blue-600 hover:text-blue-800 hover:bg-blue-200 rounded-full p-0.5 ml-1 transition-all duration-200"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -212,13 +212,13 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </h3>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
                 Theme
               </label>
               <select
                 value={formData.theme}
                 onChange={(e) => handleInputChange('theme', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/70 backdrop-blur-sm transition-all duration-200"
               >
                 <option value="default">Default</option>
                 <option value="dark">Dark</option>
@@ -229,17 +229,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* Actions */}
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          <div className="flex justify-end space-x-4 pt-6 border-t border-slate-200/50">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-slate-100 rounded-lg font-medium transition-all duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg"
             >
               <Save className="w-4 h-4" />
               <span>Save Settings</span>
