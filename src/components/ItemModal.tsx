@@ -348,7 +348,7 @@ export const ItemModal: React.FC<ItemModalProps> = ({
                 )}
               </div>
             </div>
-          )}
+          </div>
 
           {/* Description */}
           <div>
